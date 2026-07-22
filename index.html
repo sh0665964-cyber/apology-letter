@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dearest Unzila 💐💖</title>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.93);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(230, 80, 115, 0.25);
+            max-width: 680px;
+            width: 100%;
+            padding: 35px 30px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Flower Bouquet & Initial Card */
+        .bouquet-box {
+            cursor: pointer;
+            padding: 20px;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #fff0f3, #ffe3e8);
+            border: 2px dashed #ff4d6d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .bouquet-box:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.3);
+        }
+
+        .bouquet-icon {
+            font-size: 5rem;
+            animation: pulse 1.8s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* Letter Box Styling */
+        .letter-card {
+            text-align: left;
+            max-height: 48vh;
+            overflow-y: auto;
+            padding: 22px;
+            background: rgba(255, 240, 243, 0.6);
+            border-radius: 18px;
+            border-left: 5px solid #ff4d6d;
+            margin-bottom: 25px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .letter-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-card::-webkit-scrollbar-thumb {
+            background-color: #ffb3c1;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #c9184a;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        p {
+            color: #4a4a4a;
+            line-height: 1.7;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        /* Poetry Section */
+        .poetry-section {
+            margin-top: 25px;
+            background: #fff5f7;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #ffccd5;
+        }
+
+        .poetry-title {
+            font-size: 1.2rem;
+            color: #a4133c;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .poetry-card {
+            background: #ffffff;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            text-align: center;
+            border-left: 3px solid #ff758f;
+        }
+
+        .poetry-lines {
+            font-size: 1.05rem;
+            color: #590d22;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .poetry-sub {
+            font-size: 0.88rem;
+            color: #800f2f;
+            font-style: italic;
+        }
+
+        /* Buttons & Questions */
+        .question-box {
+            margin-top: 20px;
+        }
+
+        .question-title {
+            font-size: 1.3rem;
+            color: #a4133c;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            min-height: 60px;
+        }
+
+        button {
+            padding: 12px 32px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-yes {
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+            color: white;
+        }
+
+        .btn-yes:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-no {
+            background: #e9ecef;
+            color: #6c757d;
+            position: absolute;
+            transition: all 0.2s ease;
+        }
+
+        .btn-tap {
+            background: linear-gradient(45deg, #ff758f, #ffb3c1);
+            color: #590d22;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Music Bar */
+        .music-container {
+            margin-bottom: 20px;
+            background: #fff0f3;
+            padding: 8px 18px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Floating Hearts Animation */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            animation: floatUp 4s linear infinite;
+            opacity: 0;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Hearts -->
+    <div id="hearts-container"></div>
+
+    <div class="container">
+        <!-- Audio Player Section -->
+        <div class="music-container">
+            🎵 <span style="font-size: 0.85rem; font-weight: 500; color: #a4133c;">Our Special Song</span>
+            <!-- Direct mp3 audio link pre-added -->
+            <audio id="bg-music" loop src="song.mp3"></audio>
+            <button id="music-btn" style="padding: 5px 14px; font-size: 0.8rem;" onclick="toggleMusic()">▶️ Play</button>
+        </div>
+
+        <!-- STEP 1: INITIAL FLOWER BOUQUET TAP CARD -->
+        <div id="step-bouquet">
+            <h1>Special Message for Unzila 🌸</h1>
+            <p>Somebody left a bouquet of flowers and an important message for you...</p>
+            
+            <div class="bouquet-box" onclick="openApologyLetter()">
+                <div class="bouquet-icon">💐</div>
+                <h3 style="color: #c9184a; margin-top: 10px;">Tap the Bouquet to Open 💌</h3>
+                <p style="font-size: 0.85rem; color: #777; margin-top: 5px;">A heartfelt letter is waiting inside for you ✨</p>
+            </div>
+        </div>
+
+        <!-- STEP 2: SORRY LETTER & QUESTION -->
+        <div id="step-sorry" class="hidden">
+            <h1>My Dearest Unzila, 🥺</h1>
+            
+            <div class="letter-card">
+                <p>I am writing this letter with a heavy heart, deep regret, and a soul that misses you more than words could ever express. 🌧️ I know that I made a mistake, and the thought of causing you pain or sadness breaks my heart into a thousand pieces. You mean the absolute world to me, and knowing that my actions or words brought a shadow over your beautiful smile is something I sincerely apologize for from the bottom of my heart. 💔</p>
+                
+                <p>You have always been my source of comfort, my quiet peace, and the brightest light in my life. ✨ Every moment spent with you is a blessing that I cherish deeply, and I never, ever want to take your love, your patience, or your kindness for granted. 🌸 In moments of careless misunderstanding or thoughtlessness, I failed to give you the care and gentleness you truly deserve. For that, I am truly, deeply sorry. 🙇‍♂️</p>
+                
+                <p>Please know that it was never my intention to hurt you or make you feel anything less than loved, appreciated, and cherished. 💖 You are my best friend, my confidante, and the person whose opinion and feelings matter to me more than anything else in this world. 🌍 Seeing you upset—especially because of me—is a feeling I never want to experience again. 🫂</p>
+                
+                <p>I take full responsibility for my mistake, and I promise to listen to you, understand your feelings better, and work every single day to be a better partner for you. 📈 I want to earn back your sweet smile, your trust, and the warm comfort of your embrace. 🤗 I am committed to learning from this, growing, and making sure that you always feel safe, respected, and loved beyond measure in my arms. 🌿</p>
+                
+                <p>Thank you for your grace, your gentle heart, and for being the extraordinary person that you are. 🌺 I hope you can find it in your soft heart to forgive me and let me make things right again. My heart belongs entirely to you, and I am willing to do whatever it takes to bring back the happiness we share. 💫</p>
+                
+                <p style="text-align: right; font-weight: bold; margin-top: 20px;">With all my love, regret, and endless devotion,<br>Forever yours,<br>Shaheer 💍</p>
+            </div>
+
+            <div class="question-box">
+                <div class="question-title">Do you forgive me and agree to give us a chance? 🥺👉👈</div>
+                <div class="btn-group">
+                    <button class="btn-yes" onclick="celebrateAndAskNext()">Yes, I Forgive You 💖</button>
+                    <button class="btn-no" id="no-btn" onmouseover="moveNoButton()" onclick="moveNoButton()">No 💔</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: CELEBRATION TRANSITION STEP -->
+        <div id="step-celebration" class="hidden">
+            <h1>Yay! Thank You My Love! 🎉🥳</h1>
+            <div style="font-size: 4rem; margin: 15px 0;">💖✨🥂🎉</div>
+            <p>You just made my heart the happiest in the entire world! Thank you for your soft and forgiving heart. 🌸</p>
+            <p>Now, tap below to unlock my heart's deepest love letter and special poetry written just for you 💌👇</p>
+            
+            <button class="btn-tap" onclick="openLoveLetter()">Tap Here to Read Your Love Letter 💖</button>
+        </div>
+
+        <!-- STEP 4: LOVE LETTER & URDU POETRY -->
+        <div id="step-love" class="hidden">
+            <h1>A Love Letter for Unzila 💖</h1>
+            
+            <div class="letter-card">
+                <p><strong>My Dearest Unzila, ✨</strong></p>
+                
+                <p>From the moment you entered my life, everything transformed in the most breathtaking way. 🌟 You brought a gentle warmth that softened my world, a radiant light that brightened even my dimmest days, and a smile that instantly grounds my soul. Every single day with you feels like a precious blessing, and I constantly catch myself wondering how I got so incredibly blessed to be loved by someone as extraordinary as you. 🌹</p>
+                
+                <p>You are my comfort, my peace, and my absolute favorite sanctuary. 🏡 When I look at you, I don't just see the person I adore—I see my best friend, my confidante, my soulmate, and my entire future. Your soft laughter is genuinely my favorite sound in the whole world 🎵, and your voice has a magical way of making every worry melt away into nothingness. In a world that is often chaotic, busy, and unpredictable, being right by your side is where I always find my quiet strength. 🌿</p>
+                
+                <p>I cherish every single memory we create, especially the small, quiet moments that mean the world to me 💕: the way your beautiful eyes light up when you are genuinely happy, the comforting warmth of your hand wrapped in mine, and the peaceful silence when we simply sit together, needing no words at all to understand each other. You have taught me what patient, pure, and unconditional love truly feels like, and for that, my heart is forever grateful. 🌸</p>
+                
+                <p>As time carries us forward, my devotion to you only grows deeper, stronger, and more unwavering with every passing day. 📈 I promise to stand firmly beside you through every mountain and valley, to celebrate your greatest victories 🌠, to hold you close whenever life feels overwhelming, and to spend every day striving to bring a genuine smile to your face. You are the dream I never knew I was allowed to wish for, and now that you are here, I never want to imagine a universe without you. 💫</p>
+                
+                <p>Thank you for being so soft, so kind, and so breathtakingly beautiful inside and out. 🌺 My heart belonged to you yesterday, it remains entirely yours today, and it will belong to you for all of my tomorrows. ⏳</p>
+                
+                <p style="text-align: right; font-weight: bold; margin-top: 20px;">Forever and always yours, ❤️<br>Shaheer 💍</p>
+
+                <!-- 5 URDU POETRY COUPLETS SECTION -->
+                <div class="poetry-section">
+                    <div class="poetry-title">🌹 5 Beautiful Verses For You, Unzila 🌹</div>
+                    
+                    <div class="poetry-card">
+                        <div class="poetry-lines">1. "Tere bina zindagi se koi shikwa to nahi, <br>Tere bina zindagi bhi lekin zindagi nahi..." 🌹</div>
+                        <div class="poetry-sub">(Without you, life has no complaints, but without you, life isn't truly life ✨)</div>
+                    </div>
+
+                    <div class="poetry-card">
+                        <div class="poetry-lines">2. "Tum mere paas hote ho goya, <br>Jab koi doosra nahi hota..." 💕</div>
+                        <div class="poetry-sub">(You feel present right beside me, even when no one else is around 🌙)</div>
+                    </div>
+
+                    <div class="poetry-card">
+                        <div class="poetry-lines">3. "Dil ko tumse hi pyar hai, <br>Tum hi meri sanson ka ikraar ho..." 🌸</div>
+                        <div class="poetry-sub">(My heart belongs only to you, you are the promise of every breath I take 💖)</div>
+                    </div>
+
+                    <div class="poetry-card">
+                        <div class="poetry-lines">4. "Aap ki mehakti zulfon ko sawaaroon, <br>Ya aap ke haseen chehre ko nihaaroon..." 🌺</div>
+                        <div class="poetry-sub">(Should I gently admire your hair, or simply gaze at your breathtaking face? 💫)</div>
+                    </div>
+
+                    <div class="poetry-card">
+                        <div class="poetry-lines">5. "Chaand se zyada haseen hai tera chehra, <br>Mere dil par sirf tera hi pehra..." 💍</div>
+                        <div class="poetry-sub">(Your face shines brighter than the moon, and your love guards my heart forever 👑)</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Step 1 -> Step 2
+        function openApologyLetter() {
+            document.getElementById('step-bouquet').classList.add('hidden');
+            document.getElementById('step-sorry').classList.remove('hidden');
+            playAudio();
+        }
+
+        // Runaway "No" button logic
+        function moveNoButton() {
+            const noBtn = document.getElementById('no-btn');
+            const maxX = 120;
+            const maxY = 60;
+            
+            const randomX = (Math.random() - 0.5) * maxX * 2;
+            const randomY = (Math.random() - 0.5) * maxY * 2;
+            
+            noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+
+        // Step 2 -> Step 3 (Celebration Confetti)
+        function celebrateAndAskNext() {
+            document.getElementById('step-sorry').classList.add('hidden');
+            document.getElementById('step-celebration').classList.remove('hidden');
+
+            // Trigger Confetti Fireworks
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff4d6d', '#ff758f', '#ffccd5']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff4d6d', '#ff758f', '#ffccd5']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            })();
+
+            setInterval(createHeart, 150);
+        }
+
+        // Step 3 -> Step 4
+        function openLoveLetter() {
+            document.getElementById('step-celebration').classList.add('hidden');
+            document.getElementById('step-love').classList.remove('hidden');
+        }
+
+        // Audio controls
+        function playAudio() {
+            const audio = document.getElementById('bg-music');
+            audio.play().then(() => {
+                document.getElementById('music-btn').innerText = "⏸️ Pause";
+            }).catch(() => {});
+        }
+
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            const btn = document.getElementById('music-btn');
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "⏸️ Pause";
+            } else {
+                audio.pause();
+                btn.innerText = "▶️ Play";
+            }
+        }
+
+        // Background Floating Hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = ['💖', '💕', '🌸', '✨', '🌹', '💐'][Math.floor(Math.random() * 6)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.getElementById('hearts-container').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        setInterval(createHeart, 500);
+    </script>
+</body>
+</html>
